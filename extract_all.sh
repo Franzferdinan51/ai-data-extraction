@@ -78,6 +78,14 @@ else
 fi
 echo ""
 
+echo "🔍 Extracting from Hermes Agent..."
+if python3 extract_hermes.py 2>&1 | tee extracted_data/hermes_extraction.log | grep -q "Total: [1-9]"; then
+    found_tools+=("Hermes Agent")
+else
+    not_found+=("Hermes Agent")
+fi
+echo ""
+
 echo "================================================================================"
 echo "EXTRACTION SUMMARY"
 echo "================================================================================"

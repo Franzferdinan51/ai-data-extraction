@@ -73,10 +73,10 @@ Extracts from Google Gemini CLI
   - Token usage breakdown
   - Model information
   - Project hash and workspace linking
-
 ### 8. `extract_opencode.py`
+
 Extracts from OpenCode (CLI + Desktop)
-- **Searches**: 
+- **Searches**:
   - CLI: `~/.local/share/opencode/storage/` (Linux), `~/Library/Application Support/opencode` (macOS)
   - Desktop: `~/.local/share/ai.opencode.app` (Linux), `~/Library/Application Support/ai.opencode.app` (macOS)
 - **Formats**: JSON files (sessions/messages/parts) and Tauri .dat files (desktop)
@@ -89,6 +89,28 @@ Extracts from OpenCode (CLI + Desktop)
   - Agent mode and session metadata
   - Project directory and version info
   - Parent/child session relationships
+
+### 9. `extract_hermes.py`
+
+Extracts from [Hermes Agent](https://hermes-agent.nousresearch.com) — the agentic framework running the conversation.
+- **Searches**:
+  - Windows: `%LOCALAPPDATA%\hermes\state.db`
+  - macOS: `~/Library/Application Support/hermes/state.db`
+  - Linux: `~/.local/share/hermes/state.db`
+- **Format**: SQLite (read-only via URI mode)
+- **Tables**: `sessions` (metadata) + `messages` (full turn-by-turn)
+- **Includes**:
+  - Multi-platform sessions (telegram, discord, slack, webui, etc.)
+  - Tool calls + tool results
+  - Reasoning content (chain-of-thought)
+  - Token usage + cost (per-session)
+  - Model, billing provider, working directory
+  - CodeX-specific items (reasoning_items, message_items)
+- **CLI flags**:
+  - `--include-system` — prepend the system prompt as a first message
+  - `--min-messages N` — skip sessions with fewer than N turns (default 2)
+  - `--db PATH` — point at a custom state.db
+- **Duckets-tailored notes**: The 87MB state.db on a typical install contains 100+ sessions and 6K+ messages covering the user's full interaction history — perfect for fine-tuning a personalized assistant.
 
 ## 🚀 Quick Start
 
